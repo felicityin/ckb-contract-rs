@@ -5,14 +5,18 @@ use anyhow::Result;
 
 use ckb_sdk::{
     unlock::{MultisigConfig},
-    Address, NetworkType
+    Address, NetworkType,
 };
 use ckb_types::{
     H256, h256,
+    packed::OutPoint,
+    prelude::*,
 };
 
+mod cell_collector;
 mod multisig_account;
 mod multisig_deploy;
+mod multisig_upgrade;
 mod utils;
 
 use utils::{to_address};
@@ -43,6 +47,12 @@ fn main() -> Result<(), Box<dyn StdErr>> {
     create_multisig_address(&multisig_config);
 
     multisig_deploy::deploy_contract(get_keys(), &multisig_config, CKB_RPC, CONTRACT_FILE);
+
+    let out_point = OutPoint::new(
+        h256!("0x43004199d66fff32b3d175ce5959e02f413a73f16abeba0e140deaa6c07c1abb").pack(),
+        0
+    );
+    multisig_upgrade::upgrade_contract(out_point, get_keys(), &multisig_config, CKB_RPC, CONTRACT_FILE);
 
     Ok(())
 }

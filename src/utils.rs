@@ -18,12 +18,12 @@ use ckb_types::{
 };
 use molecule::prelude::Entity;
 
-pub fn send_tx(ckb_rpc: &str, tx: Transaction) {
+pub fn send_tx(ckb_rpc: &str, tx: Transaction) -> String {
     let outputs_validator = Some(json_types::OutputsValidator::Passthrough);
     let tx_hash = CkbRpcClient::new(ckb_rpc)
         .send_transaction(tx, outputs_validator)
         .expect("send transaction");
-    println!("tx sent: {:?}", tx_hash.to_string());
+    tx_hash.to_string()
 }
 
 pub fn build_type_id_script(input: &CellInput, output_index: u64) -> Script {

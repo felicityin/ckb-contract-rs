@@ -35,7 +35,8 @@ pub fn deploy_contract(
 ) {
     let tx = build_deploy_tx(multisig_config, ckb_rpc, contract_file).expect("build tx");
     let tx = sign_tx(tx, multisig_config, sender_keys, ckb_rpc).expect("sign tx");
-    send_tx(ckb_rpc, json_types::TransactionView::from(tx).inner);
+    let tx_hash = send_tx(ckb_rpc, json_types::TransactionView::from(tx).inner);
+    println!("tx sent: {:?}", tx_hash);
 }
 
 pub fn build_deploy_tx(
@@ -114,7 +115,6 @@ pub fn sign_tx(
     sender_keys: Vec<secp256k1::SecretKey>,
     ckb_rpc: &str,
 ) -> Result<TransactionView> {
-    // Unlock transaction
     let tx_dep_provider = DefaultTransactionDependencyProvider::new(ckb_rpc, 10);
     for key in sender_keys {
         let unlockers = build_multisig_unlockers(vec![key], multisig_config.clone());
