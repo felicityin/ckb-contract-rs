@@ -17,7 +17,9 @@ cargo run
     ```
 
 2. Deploy a contract binary with multisig address and type id type script
+
     The first cell of outputs: https://pudge.explorer.nervos.org/transaction/0x43004199d66fff32b3d175ce5959e02f413a73f16abeba0e140deaa6c07c1abb
 
 3. Update above contract binary with new multisig address (keep the type script)
+
    The first cell of outputs: https://pudge.explorer.nervos.org/transaction/0x8c27bfd8b3e95b9a76e1544043ca0ec6851c8d0ab6bdbc1df65a902d75c8ed85
